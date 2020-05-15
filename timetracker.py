@@ -3,19 +3,8 @@ import matplotlib.pyplot as plt
 from threading import Thread
 from win32 import win32gui, win32api, win32console, win32process
 import psutil
-import atexit
 
-def exitHandler():
-    # print the time elapsed for the session
-    print("\n")
-    print("Total Time Elapsed: " + time.strftime("%H:%M:%S", time.gmtime(globalElapsed)) + "\n")
-    for x in applications:
-        print("Application Name: " + x + " Time: " + time.strftime("%H:%M:%S", time.gmtime(applications[x])))
-        percentage = 100 * applications[x] / globalElapsed
-        print("Percent of Total Time: " + "%.2f" % percentage + "%\n")
-
-# go to exitHandler on exit
-atexit.register(exitHandler)
+import helperFunctions
 
 def timer():
     previousApplicationName = ""
@@ -26,7 +15,10 @@ def timer():
         window = win32gui.GetForegroundWindow()
         processID = win32process.GetWindowThreadProcessId(window)
         if (psutil.pid_exists(processID[-1])):
+            # format application name
             currentApplicationName = psutil.Process(processID[-1]).name()
+            currentApplicationName = currentApplicationName.capitalize()
+            currentApplicationName = currentApplicationName.replace('.exe', '')
         else:
             currentApplicationName = ""
 
@@ -60,45 +52,15 @@ while True:
 
     # if user pressed q, print the statistics for the 5 most used apps
     if(keypressed == 'q'):
-        globalElapsed = time.time() - start
-
-        # display current statistics
-        print("Total Time Elapsed: " + time.strftime("%H:%M:%S", time.gmtime(globalElapsed)) + "\n")
-
-        applications_sorted = {k: v for k, v in sorted(applications.items(), key=lambda x: x[1], reverse=True)}
-
-        counter = 0
-        for x in applications_sorted:
-            print("Application Name: " + x )
-            print("Time: " + time.strftime("%H:%M:%S", time.gmtime(applications_sorted[x])))
-            percentage = 100 * applications_sorted[x] / globalElapsed
-            print("Percent of Total Time: " + "%.2f" % percentage + "%\n")
-            counter += 1
-            if (counter > 4):
-                break
+        helperFunctions.printTopFive(start, applications)
 
     # if user pressed t, print all the statistics
     elif(keypressed == 't'):
-        globalElapsed = time.time() - start
-
-        # display current statistics
-        print("Total Time Elapsed: " + time.strftime("%H:%M:%S", time.gmtime(globalElapsed)) + "\n")
-
-        applications_sorted = {k: v for k, v in sorted(applications.items(), key=lambda x: x[1], reverse=True)}
-
-        for x in applications_sorted:
-            print("Application Name: " + x)
-            print("Time: " + time.strftime("%H:%M:%S", time.gmtime(applications_sorted[x])))
-            percentage = 100 * applications_sorted[x] / globalElapsed
-            print("Percent of Total Time: " + "%.2f" % percentage + "%\n")
+        helperFunctions.printAll(start, applications)
 
     elif(keypressed == 'g'):
-        # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-        labels = applications.keys()
-        sizes = applications.values()
+        helperFunctions.graphAll(applications)
 
-        fig1, ax1 = plt.subplots()
-        ax1.pie(sizes, explode= None, labels= labels, autopct='%1.1f%%', shadow=True, startangle=90)
-        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
-        plt.show()
+
+
