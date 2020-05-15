@@ -1,8 +1,7 @@
 import time
+import matplotlib.pyplot as plt
 
-
-def printTopFive(start, applications):
-    globalElapsed = time.time() - start
+def printTopFive(applications, globalElapsed):
 
     # display current statistics
     print("Total Time Elapsed: " + time.strftime("%H:%M:%S", time.gmtime(globalElapsed)) + "\n")
@@ -19,8 +18,7 @@ def printTopFive(start, applications):
         if (counter > 4):
             break
 
-def printAll(start, applications):
-    globalElapsed = time.time() - start
+def printAll(applications, globalElapsed):
 
     # display current statistics
     print("Total Time Elapsed: " + time.strftime("%H:%M:%S", time.gmtime(globalElapsed)) + "\n")
@@ -39,7 +37,12 @@ def graphAll(applications):
     sizes = applications.values()
 
     fig1, ax1 = plt.subplots()
-    ax1.pie(sizes, explode=None, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
+    ax1.pie(sizes, explode=None, labels=labels, startangle=90)
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+    # add a circle at the center
+    my_circle = plt.Circle((0, 0), 0.7, color='white')
+    p = plt.gcf()
+    p.gca().add_artist(my_circle)
 
     plt.show()

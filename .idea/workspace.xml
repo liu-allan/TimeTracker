@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fdf95cd7-8c60-4413-8666-d34050541050" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helperFunctions.py" beforeDir="false" afterPath="$PROJECT_DIR$/helperFunctions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/timetracker.py" beforeDir="false" afterPath="$PROJECT_DIR$/timetracker.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -180,5 +181,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$APPLICATION_CONFIG_DIR$/scratches/scratch_3.py</url>
+          <line>7</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
