@@ -6,24 +6,30 @@ import helperFunctions
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from tkinter.font import Font
 
 class GUI:
     def __init__(self, master):
 
         self.master = master
         master.title("Time Tracker")
-
         master['bg'] = 'white'
 
-        self.startStopButton = tk.Button(master, text="Start/Stop", command=lambda: timer(True)).pack()
-        self.mostUsedButton = tk.Button(master, text="Most Used", command=lambda: helperFunctions.printTopFive(applications, globalElapsed)).pack()
-        self.allButton = tk.Button(master, text="All", command=lambda: helperFunctions.printAll(applications, globalElapsed)).pack()
-
         pieChart = FigureCanvasTkAgg(figure, master)
-        pieChart.get_tk_widget().pack()
+        pieChart.get_tk_widget().pack(fill= "both", expand = 1)
+
+        self.startStopButton = tk.Button(master, text="Start/Stop", command=lambda: timer(True))
+        self.startStopButton.pack(side = "left", fill="x", expand = 1)
+
+        self.mostUsedButton = tk.Button(master, text="Most Used", command=lambda: helperFunctions.printTopFive(applications, globalElapsed))
+        self.mostUsedButton.pack(side="left", fill="x", expand = 1)
+
+        self.allButton = tk.Button(master, text="All", command=lambda: helperFunctions.printAll(applications, globalElapsed))
+        self.allButton.pack(side="left", fill="x", expand = 1)
 
 
-figure = plt.Figure(figsize=(5, 5), dpi=100)
+
+figure = plt.Figure(figsize=(5, 4), dpi=100)
 ax = figure.add_subplot(111)
 
 # animate the usage of applications
@@ -33,7 +39,7 @@ def animate(interval):
     ax.clear()
     ax.pie(sizes)
     ax.legend(labels)
-    ax.set_title('Usage')
+    ax.set_title('Application Usage')
     circle = plt.Circle((0, 0), 0.7, color='white')
     ax.add_artist(circle)
 
