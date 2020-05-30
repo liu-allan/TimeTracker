@@ -6,7 +6,6 @@ import helperFunctions
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import mplcursors
 from tkinter.font import Font
 
 class GUI:
@@ -46,7 +45,7 @@ class GUI:
         else:
             self.text.set("Stopped: " + time.strftime("%H:%M:%S", time.gmtime(globalElapsed)))
 
-figure = plt.Figure(figsize=(5, 4), dpi=100)
+figure = plt.Figure(figsize=(6, 4), dpi=100)
 ax = figure.add_subplot(111)
 
 def make_autopct(values):
@@ -64,11 +63,12 @@ def animate(interval):
     labels = applications.keys()
     sizes = applications.values()
     ax.clear()
-    ax.pie(sizes, autopct=make_autopct(sizes), pctdistance=0.55, startangle=90)
-    ax.legend(labels, loc = "upper right")
+    ax.pie(sizes, autopct=make_autopct(sizes), pctdistance=0.5, startangle=90)
+    ax.legend(labels, bbox_to_anchor=(1.3, 1))
     ax.set_title('Application Usage')
     circle = plt.Circle((0, 0), 0.7, color='white')
     ax.add_artist(circle)
+
 
 def timer(toggle=False):
     global tracking_var
@@ -84,7 +84,8 @@ def timer(toggle=False):
             tracking_var = True
 
     if tracking_var:
-        globalElapsed = time.time() - start
+        text = "Running: " + time.strftime("%H:%M:%S", time.gmtime(globalElapsed))
+        globalElapsed += 1
 
         # access the foreground window
         window = win32gui.GetForegroundWindow()
@@ -119,7 +120,7 @@ applications = {}
 start = time.time()
 currentApplicationStart = time.time()
 previousApplicationName = ""
-globalElapsed = start
+globalElapsed = 0
 
 if __name__ == '__main__':
     tracking_var = False
